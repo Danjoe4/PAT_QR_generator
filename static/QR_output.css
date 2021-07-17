@@ -1,0 +1,12 @@
+.resizable {
+  display: inline-block;
+  resize: horizontal;
+  overflow: hidden;
+  line-height: 0;
+  border: solid 1px #CCC"
+  }
+
+.resizable img {
+  width: 100%;
+  height: auto;
+}
