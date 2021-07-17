@@ -8,12 +8,13 @@ import io
 KEY = b'mANM2S7Vx49lRmmlIfSSX9NCy8QvB1G7EX8iGpRw3T8='
 ##########################################################################
 
+app = Flask(__name__)
 
 ######### make the qrcode ###########
 import qrcode
 # for putting the logo in the QR code center
 from PIL import Image
-Logo_link = "static/logo.jpg"
+Logo_link = "static/logo.jpg" # absolute path /home/Danjoe4/PAT_QR_generator/static/logo.jpg
 logo = Image.open(Logo_link)
 # various image parameters that will not change
 basewidth = 100
@@ -28,9 +29,7 @@ QRcode = qrcode.QRCode(
 # a few more useful globals
 BASE_URL = "http://djbroderick.xyz/send?" 
 
-app = Flask(__name__, 
-static_folder='static',
-template_folder='templates')
+
 
 
 @app.route("/",methods=['GET'])
