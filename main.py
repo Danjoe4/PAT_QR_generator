@@ -80,6 +80,7 @@ def make_qr(brand, product, model, serial):
     data = io.BytesIO()
     QRimg.save(data, 'PNG')
     encoded_img_data = base64.b64encode(data.getvalue())
+    print("QR code version: "+ str(QRcode.version))
     return encoded_img_data
 
 
@@ -106,7 +107,7 @@ def obscure_params(data: bytes) -> bytes:
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
-    #make_qr("Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567")
+    #app.run(port=5000, debug=True)
+    make_qr("Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567")
     #test1 = obscure_params(b'["Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567"]')
     #unobscure(test1)
