@@ -1,12 +1,11 @@
 # coding=utf-8
 from flask import Flask, render_template, request, send_file
-from cryptography.fernet import Fernet
-import base64
+#from cryptography.fernet import Fernet
+import zlib # for compression
+import base64 
 import io
 
-############## encryption key, this is NOT SECURE at all. Use for demo only #######
-KEY = b'mANM2S7Vx49lRmmlIfSSX9NCy8QvB1G7EX8iGpRw3T8='
-##########################################################################
+
 
 app = Flask(__name__)
 
@@ -34,29 +33,34 @@ BASE_URL = "http://djbroderick.xyz/send?"
 
 @app.route("/",methods=['GET'])
 def index():
+    """ the root page with the fillable form
+    """
     return render_template("home.html")
 
 
 @app.route("/code", methods=["POST"])
 def code():
+    """ makes the QR code if it received a POST request from the root page
+    """
     if request.method == 'POST':
-        print('Incoming..')
         qr_img = make_qr(request.form['brand'], 
         request.form['product'], 
         request.form['model'], 
         request.form['serial'])
         
         return render_template("QR_output.html", img_data=qr_img.decode('utf-8'))
-        #return 'OK', 200
-
+    
     return "Please go back and submit the form"
 
 
 
 
 def make_qr(brand, product, model, serial):
-    # taking url or text
-    ciphertext = encrypt_params(b"[{brand},{product},{model},{serial}]")
+    """ Takes the params and returns a base64 encoded image object
+    """
+
+    # HASH (add encryption) the params and create the url
+    ciphertext = obscure_params(b"[{brand},{product},{model},{serial}]")
     url = BASE_URL + "id=" + str(ciphertext)
     
     # add URL to QRcode and generate
@@ -80,18 +84,29 @@ def make_qr(brand, product, model, serial):
 
 
 def encrypt_params(params):
+    """ Encrypts the list of params: [brand,product,model,serial] and returns the 
+    encrypted string.
+    This algorithm produces a string that is too long, use a different one
+    """
     f = Fernet(KEY)
     token = f.encrypt(params)
+    print(token)
     return token
 
 
-@app.route("/qrcode", methods=["GET"])
-def get_qrcode():
-    # please get /qrcode?data=<qrcode_data>
-    data = request.args.get("data", "")
-    return send_file(qrcode(data, mode="raw"), mimetype="image/png")
+def obscure_params(data: bytes) -> bytes:
+    """ A temporary solution to getting a smaller output. Converts to base64
+    then uses compression
+    """
+    out = base64.urlsafe_b64encode(zlib.compress(data, 9))
+    print(out)
+    return out
+
+
 
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
     #make_qr("Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567")
+    #test1 = obscure_params(b'["Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567"]')
+    #unobscure(test1)
