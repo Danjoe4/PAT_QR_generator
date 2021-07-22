@@ -58,10 +58,7 @@ def code():
 def make_qr(brand, product, model, serial):
     """ Takes the params and returns a base64 encoded image object
     """
-
-    # HASH (add encryption) the params and create the url
-    ciphertext = obscure_params(b"[{brand},{product},{model},{serial}]")
-    url = BASE_URL + "id=" + str(ciphertext)
+    url = make_url(brand, product, model, serial)
     
     # add URL to QRcode and generate
     QRcode.add_data(url)
@@ -84,6 +81,14 @@ def make_qr(brand, product, model, serial):
     return encoded_img_data
 
 
+def make_url(brand, product, model, serial):
+
+    # HASH (add encryption) the params and create the url
+    ciphertext = obscure_params(f"{brand},{product},{model},{serial}".encode('utf-8'))
+    url = BASE_URL + "v=" + str(ciphertext)
+    print("the url: " + url)
+
+
 def encrypt_params(params):
     """ Encrypts the list of params: [brand,product,model,serial] and returns the 
     encrypted string.
@@ -99,7 +104,10 @@ def obscure_params(data: bytes) -> bytes:
     """ A temporary solution to getting a smaller output. Converts to base64
     then uses compression
     """
+    print("the paramaters to be encoded: ")
+    print(data)
     out = base64.urlsafe_b64encode(zlib.compress(data, 9))
+    print("encoded (base 64) paramter: ")
     print(out)
     return out
 
@@ -107,7 +115,6 @@ def obscure_params(data: bytes) -> bytes:
 
 
 if __name__ == "__main__":
-    #app.run(port=5000, debug=True)
-    make_qr("Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567")
-    #test1 = obscure_params(b'["Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567"]')
-    #unobscure(test1)
+    app.run(port=5000, debug=True)
+    #make_qr("Bose", "HEADPHONES", "6DBL", "SOMESERIAL2423567")
+   
