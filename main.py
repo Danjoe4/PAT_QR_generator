@@ -82,12 +82,11 @@ def make_qr(brand, product, model, serial):
 
 
 def make_url(brand, product, model, serial):
-
     # HASH (add encryption) the params and create the url
     ciphertext = obscure_params(f"{brand},{product},{model},{serial}".encode('utf-8'))
-    url = BASE_URL + "v=" + str(ciphertext)
+    url = BASE_URL + "v=" + str(ciphertext)[2:-1] # str cast adds b'...' to the cipher
     print("the url: " + url)
-
+    return url
 
 def encrypt_params(params):
     """ Encrypts the list of params: [brand,product,model,serial] and returns the 
