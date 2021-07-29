@@ -20,9 +20,7 @@ basewidth = 100
 wpercent = (basewidth/float(logo.size[0]))
 hsize = int((float(logo.size[1])*float(wpercent)))
 logo = logo.resize((basewidth, hsize), Image.ANTIALIAS)
-QRcode = qrcode.QRCode(
-    error_correction=qrcode.constants.ERROR_CORRECT_H
-)
+
 ##########################
 
 # a few more useful globals
@@ -60,7 +58,9 @@ def make_qr(brand, product, model, serial):
     """
     url = make_url(brand, product, model, serial)
     
-    # add URL to QRcode and generate
+    # initialize, add URL to QRcode and generate
+    QRcode = qrcode.QRCode(
+    error_correction=qrcode.constants.ERROR_CORRECT_H)
     QRcode.add_data(url)
     QRcode.make()
 
