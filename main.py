@@ -26,7 +26,7 @@ QRcode = qrcode.QRCode(
 ##########################
 
 # a few more useful globals
-BASE_URL = "http://djbroderick.xyz/send?" 
+BASE_URL = "http://www.vaultqr.com/send?" 
 
 
 
