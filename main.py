@@ -23,7 +23,7 @@ hsize = int((float(logo.size[1])*float(wpercent)))
 logo = logo.resize((basewidth, hsize), Image.ANTIALIAS)
 ########################################
 
-# a few more useful global CONSTANTS
+# a few more useful global CONSTANTS (called at the bottom)
 def load_globals():
     with open("config.yaml") as f_stream:
         config_file = yaml.load(f_stream, yaml.FullLoader)
@@ -128,10 +128,9 @@ def derive_encryption_key(salt, password):
     return key
 
 
-
+load_globals()
 
 if __name__ == "__main__":
-    app.before_first_request(load_globals) 
     app.run(port=5000, debug=True)
     
     #load_globals()
