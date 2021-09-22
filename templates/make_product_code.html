@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/home.css')}}">
-    <script src="{{url_for('static', filename='/home.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/make_product_code.css')}}">
+    <script src="{{url_for('static', filename='/make_product_code.js')}}"></script>
 </head>
     <form action="{{ url_for('code') }}" method="post" class="form">
         <div class="title">Welcome</div>
@@ -12,11 +12,13 @@
         <div class="cut"></div>
         <label for="brand" class="placeholder">Brand</label>
         </div>
+<!------Consider removing this section --->
         <div class="input-container ic2">
         <input name="product" class="input" type="text" placeholder=" " autocomplete="off" />
         <div class="cut cut-more"></div>
         <label for="product" class="placeholder">Product</label>
         </div>
+<!------------------------------------->
         <div class="input-container ic2">
         <input name="model" class="input" type="text" placeholder=" " autocomplete="off" />
         <div class="cut cut-short"></div>
