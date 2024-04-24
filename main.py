@@ -35,7 +35,7 @@ def load_globals():
     print("here is the encryption key:")
     print(ENCRYPTION_KEY_1)
 
-BASE_URL = "http://www.vaultqr.com/send?" 
+BASE_URL = "http://www.vaultqr.daniel-broderick.com/send?" 
 ###############################
 @app.route("/",methods=['GET'])
 def root():
